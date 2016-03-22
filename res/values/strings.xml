@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, ARSimpleNative!</string>
+    <string name="app_name">ARSimpleNative</string>
+    <string name="title_activity_gui">GUIActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_modo_juego">Modo de Juego</string>
+    <string name="title_activity_crear_partida">Crear Partida</string>
+    <string name="title_activity_unirse_partida">Unirse a Partida</string>
+    <string name="title_activity_vestibulo">Vestibulo</string>
+    <string name="title_activity_test">Test</string>
+
+</resources>
