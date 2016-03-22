@@ -393,6 +393,11 @@ JNIEXPORT void JNICALL JNIFUNCTION_DEMO(demoDrawFrame(JNIEnv* env, jobject obj))
             //Conclusion: Por cada 100 unidades de translacion en Z, se divide el tamaño en un punto
             //Ej: Si la translacion es 500, el tamanio del objeto se divide entre 5
 
+            //Ahora que el objeto de realidad aumentada cambio a ser circular, se debe utilizar una
+            //formula para obtener un area de impacto circular
+
+            //Nuevo tamanio: 150
+
 
             //if(trans[14] <= 100)
             /*
