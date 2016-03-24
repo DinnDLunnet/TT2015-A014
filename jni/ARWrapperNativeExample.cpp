@@ -79,7 +79,7 @@ static float transZ[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 static int detectado[8] = {-1, -1, -1, -1, -1, -1, -1, -1};
 static double tiempoTolerancia[8] = {100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0};
 static double tiempoAnterior[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-static float markerSize = 100.0;
+static float markerSize = 150.0;
 
 
 JNIEXPORT void JNICALL JNIFUNCTION_DEMO(demoInitialise(JNIEnv* env, jobject object)) {
@@ -111,15 +111,21 @@ JNIEXPORT int JNICALL JNIFUNCTION_DEMO(habreImpactadoNat(JNIEnv* env, jobject ob
     for(i=0; i<8; i++){
         if(detectado[i] >= 0){
             if(transZ[i] == markerSize){   
-                ventana = 100; 
+                ventana = 50; 
             }
             else{
-                ventana = 100 - (transZ[i] / markerSize) * 10;
+                ventana = 50 - (transZ[i] / markerSize) * 10;
             }
 
-            if( (transX[i] >= 0 - ventana && transX[i] <= 0 + ventana)   &&  (transY[i] >= 0 - ventana && transY[i] <= 0 + ventana)){
-                return detectado[i];
+
+
+            //if( (transX[i] >= 0 - ventana && transX[i] <= 0 + ventana)   &&  (transY[i] >= 0 - ventana && transY[i] <= 0 + ventana)){
+            //    return detectado[i];
+            //}
+            if( (transX[i] * transX[i] + transY[i] * transY[i]) <= (ventana * ventana) ){
+                return i;
             }
+
         }
     }
     return -1;
@@ -392,6 +398,11 @@ JNIEXPORT void JNICALL JNIFUNCTION_DEMO(demoDrawFrame(JNIEnv* env, jobject obj))
 
             //Conclusion: Por cada 100 unidades de translacion en Z, se divide el tamaño en un punto
             //Ej: Si la translacion es 500, el tamanio del objeto se divide entre 5
+
+            //Ahora que el objeto de realidad aumentada cambio a ser circular, se debe utilizar una
+            //formula para obtener un area de impacto circular
+
+            //Nuevo tamanio: 150
 
 
             //if(trans[14] <= 100)

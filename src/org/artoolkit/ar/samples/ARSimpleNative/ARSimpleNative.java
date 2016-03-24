@@ -54,6 +54,7 @@ import org.artoolkit.ar.base.rendering.ARRenderer;
 import org.artoolkit.ar.samples.ARSimpleNative.R;
 
 import android.media.AudioManager;
+import android.media.SoundPool;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
@@ -75,6 +76,8 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
 	private FrameLayout mFrame;
 	private TextView emergente;
 	private int idImpacto;
+	private int soundId;
+	private SoundPool sp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,11 +97,13 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
         emergente.setId(5);
         emergente.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 
+        sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundId = sp.load(this, R.raw.laser, 1);
     }
     
     public void onStop() {
     	SimpleNativeRenderer.demoShutdown();
-    	
+    	sp.release();
     	super.onStop();
     }
 
@@ -119,25 +124,24 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
     	if(mFrame == v) {
     		Log.i(TAG, "onTouchEvent");
             
-            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 70);
-            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 50); 
+    		sp.play(soundId, 1, 1, 0, 0, 1);
 
-            //toastie.makeText(this, "touch loco", Toast.LENGTH_SHORT).show();
             idImpacto = simpleNativeRenderer.habreImpactado();
             if(idImpacto >= 0){
-                Toast.makeText(this, "¡Jugador "+idImpacto+" impactado!", Toast.LENGTH_SHORT).show();
+            	
+            	final Toast toast = Toast.makeText(this, "Jugador "+idImpacto+" impactado!", Toast.LENGTH_SHORT);
+                toast.show();
+
+                Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           toast.cancel(); 
+                    }
+                }, 500);
+
             }
 
-            emergente.setText("Impacto");
-            
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-               @Override
-               public void run() {
-                   emergente.setText("X");
-               }
-            }, 500);
-            
             
     		return true;
     	}
