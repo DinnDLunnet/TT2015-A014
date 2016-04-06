@@ -32,28 +32,32 @@ public final class R {
         public static final int settings=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0017;
+        public static final int action_settings=0x7f0a001b;
         public static final int button=0x7f0a0003;
         public static final int button2=0x7f0a000d;
         public static final int button3=0x7f0a000e;
         public static final int button4=0x7f0a0008;
-        public static final int button5=0x7f0a0016;
-        public static final int button6=0x7f0a0012;
+        public static final int button5=0x7f0a001a;
+        public static final int button6=0x7f0a0018;
         public static final int editText=0x7f0a0001;
         public static final int editText2=0x7f0a0007;
         public static final int editText3=0x7f0a0005;
         public static final int hudLayout=0x7f0a0009;
-        public static final int listView=0x7f0a0015;
-        public static final int listView2=0x7f0a0010;
+        public static final int listView=0x7f0a0014;
+        public static final int listView2=0x7f0a0016;
         public static final int mainLayout=0x7f0a000c;
+        public static final int otbutton2=0x7f0a0010;
+        public static final int otbutton3=0x7f0a0011;
+        public static final int ottextView3=0x7f0a0012;
+        public static final int pbutton1=0x7f0a0015;
         public static final int relLayout=0x7f0a0013;
-        public static final int settings=0x7f0a0018;
+        public static final int settings=0x7f0a001c;
         public static final int textView=0x7f0a0000;
         public static final int textView2=0x7f0a0002;
         public static final int textView3=0x7f0a000f;
         public static final int textView4=0x7f0a0006;
-        public static final int textView5=0x7f0a0014;
-        public static final int textView6=0x7f0a0011;
+        public static final int textView5=0x7f0a0019;
+        public static final int textView6=0x7f0a0017;
         public static final int textView7=0x7f0a0004;
         public static final int textViewH1=0x7f0a000a;
         public static final int topLayout=0x7f0a000b;
@@ -66,17 +70,21 @@ public final class R {
         public static final int main=0x7f030004;
         public static final int mi_lista=0x7f030005;
         public static final int modo_juego=0x7f030006;
-        public static final int unirse_partida=0x7f030007;
-        public static final int vestibulo=0x7f030008;
+        public static final int otra_partida=0x7f030007;
+        public static final int puntuacion=0x7f030008;
+        public static final int unirse_partida=0x7f030009;
+        public static final int vestibulo=0x7f03000a;
     }
     public static final class menu {
         public static final int crear_partida=0x7f090000;
         public static final int gui=0x7f090001;
         public static final int modo_juego=0x7f090002;
         public static final int options=0x7f090003;
-        public static final int test=0x7f090004;
-        public static final int unirse_partida=0x7f090005;
-        public static final int vestibulo=0x7f090006;
+        public static final int otra_partida=0x7f090004;
+        public static final int puntuacion=0x7f090005;
+        public static final int test=0x7f090006;
+        public static final int unirse_partida=0x7f090007;
+        public static final int vestibulo=0x7f090008;
     }
     public static final class raw {
         public static final int laser=0x7f050000;
@@ -94,6 +102,8 @@ public final class R {
         public static final int title_activity_crear_partida=0x7f06000b;
         public static final int title_activity_gui=0x7f060007;
         public static final int title_activity_modo_juego=0x7f06000a;
+        public static final int title_activity_otra_partida=0x7f060010;
+        public static final int title_activity_puntuacion=0x7f06000f;
         public static final int title_activity_test=0x7f06000e;
         public static final int title_activity_unirse_partida=0x7f06000c;
         public static final int title_activity_vestibulo=0x7f06000d;

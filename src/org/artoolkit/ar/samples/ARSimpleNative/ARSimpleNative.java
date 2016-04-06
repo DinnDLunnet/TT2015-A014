@@ -53,15 +53,14 @@ import org.artoolkit.ar.base.ARActivity;
 import org.artoolkit.ar.base.rendering.ARRenderer;
 import org.artoolkit.ar.samples.ARSimpleNative.R;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.*;
@@ -71,6 +70,12 @@ import android.view.ViewGroup.LayoutParams;
 
 
 public class ARSimpleNative extends ARActivity implements OnTouchListener{
+	
+	public final static String EXTRA_NOMBRE_USUARIO = "com.gotcha.a014.interfazgotcha.NOMBRE_USUARIO";
+    public final static String EXTRA_NOMBRE_PARTIDA = "com.gotcha.a014.interfazgotcha.NOMBRE_PARTIDA";
+    public final static String EXTRA_IP_SERVIDOR = "com.gotcha.a014.interfazgotcha.IP_SERVIDOR";
+    
+    private String nombre, nomPartida, ipServidor;
 
 	private SimpleNativeRenderer simpleNativeRenderer = new SimpleNativeRenderer();
 	private FrameLayout mFrame;
@@ -78,6 +83,16 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
 	private int idImpacto;
 	private int soundId;
 	private SoundPool sp;
+	
+	private long startTime = 3000000L;
+	private long realStart;
+	private Handler customHandler = new Handler();
+	long timeInMilliseconds = 0L;
+	long timeSwapBuff = 0L;
+	long updatedTime = 0L;
+	private Runnable updateTimerThread;
+	
+	private boolean calentado;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +102,11 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
         getWindow().setFlags(
         WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        Intent intent = getIntent();
+        nombre = intent.getStringExtra(CrearPartidaActivity.EXTRA_NOMBRE_USUARIO);
+        nomPartida = intent.getStringExtra(CrearPartidaActivity.EXTRA_NOMBRE_PARTIDA);
+        ipServidor = intent.getStringExtra(CrearPartidaActivity.EXTRA_IP_SERVIDOR);
         
         setContentView(R.layout.main);        
         mFrame = (FrameLayout) findViewById(R.id.mainLayout);
@@ -99,6 +119,34 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
 
         sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         soundId = sp.load(this, R.raw.laser, 1);
+        realStart = SystemClock.uptimeMillis();
+        updatedTime = startTime;
+        
+        updateTimerThread = new Runnable() {
+        	public void run() {
+        		timeInMilliseconds = SystemClock.uptimeMillis() - realStart;
+        		updatedTime -= timeInMilliseconds;
+        		int secs = (int) (updatedTime / 1000);
+        		int mins = secs / 60;
+        		secs = secs % 60;
+        		int milliseconds = (int) (updatedTime % 1000);
+        		
+        		if(updatedTime <= 0){
+        			customHandler.removeCallbacks(updateTimerThread);
+        			irPuntuaciones(findViewById(android.R.id.content));
+        		}
+        		else{
+        			customHandler.postDelayed(this, 1000);
+        		}
+		
+        	}
+        };
+        
+        
+        
+        customHandler.postDelayed(updateTimerThread, 0);
+        
+        calentado = false;
     }
     
     public void onStop() {
@@ -117,14 +165,37 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
     	return (FrameLayout)this.findViewById(R.id.mainLayout);
     	
     }
+    
+    public void irPuntuaciones(View view) {
+        Intent intent = new Intent(this, PuntuacionActivity.class);
+        intent.putExtra(EXTRA_NOMBRE_USUARIO, nombre);
+        intent.putExtra(EXTRA_NOMBRE_PARTIDA, nomPartida);
+        intent.putExtra(EXTRA_IP_SERVIDOR, ipServidor);
+
+        /*
+            Conectar con el servidor
+        */
+
+        startActivity(intent);
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         // TODO Auto-generated method stub
-    	if(mFrame == v) {
+    	if(mFrame == v && calentado == false) {
     		Log.i(TAG, "onTouchEvent");
             
     		sp.play(soundId, 1, 1, 0, 0, 1);
+    		
+    		calentado = true;
+    		
+    		Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   calentado = false; 
+               }
+            }, 500);
 
             idImpacto = simpleNativeRenderer.habreImpactado();
             if(idImpacto >= 0){
@@ -132,7 +203,7 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
             	final Toast toast = Toast.makeText(this, "Jugador "+idImpacto+" impactado!", Toast.LENGTH_SHORT);
                 toast.show();
 
-                Handler handler = new Handler();
+                handler = new Handler();
                     handler.postDelayed(new Runnable() {
                        @Override
                        public void run() {
@@ -140,8 +211,7 @@ public class ARSimpleNative extends ARActivity implements OnTouchListener{
                     }
                 }, 500);
 
-            }
-
+            }          
             
     		return true;
     	}
