@@ -87,7 +87,18 @@
         </activity>
         <activity android:name="org.artoolkit.ar.base.camera.CameraPreferencesActivity" >
         </activity>
-        
+        <activity
+            android:name=".PuntuacionActivity"
+            android:label="@string/title_activity_puntuacion" >
+        </activity>
+        <activity
+            android:name=".OtraPartidaActivity"
+            android:label="@string/title_activity_otra_partida"
+            android:parentActivityName=".PuntuacionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="PuntuacionActivity" />
+        </activity>
     </application>
 
 </manifest>

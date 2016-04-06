@@ -11,5 +11,7 @@
     <string name="title_activity_unirse_partida">Unirse a Partida</string>
     <string name="title_activity_vestibulo">Vestibulo</string>
     <string name="title_activity_test">Test</string>
+    <string name="title_activity_puntuacion">Puntuaciones</string>
+    <string name="title_activity_otra_partida">Otra partida?</string>
 
 </resources>
